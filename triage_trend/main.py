@@ -3,6 +3,7 @@ from typing import Any, Dict
 import joblib
 import pandas as pd
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from triage_trend.data_service.feature_map import feature_map
@@ -12,6 +13,14 @@ MODEL_PATH = "./model/gb_model.pkl"
 
 model = joblib.load(MODEL_PATH)
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class PredictionRequest(BaseModel):
