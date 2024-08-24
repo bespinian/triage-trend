@@ -27,10 +27,9 @@ class PredictionResponse(BaseModel):
 async def predict(data: PredictionRequest):
     features = get_data(data.date)
     input_df = pd.DataFrame([features])
-
+    input_df = input_df[model.named_steps['preprocessor'].feature_names_in_]
     prediction = model.predict(input_df)
-
-    features_camel_case = {feature_map[k]: v for k, v in features.items()}
+    features_camel_case = {feature_map.get(k, k): v for k, v in features.items()}
 
     return PredictionResponse(
         prediction=prediction[0], featuresUsed=features_camel_case
