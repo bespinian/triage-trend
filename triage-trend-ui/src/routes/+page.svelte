@@ -2,6 +2,14 @@
 	import type { Prediction } from '$lib/Prediction';
 	import type { Employee } from '$lib/Employee';
 	import { employees } from '$lib/Employee';
+	import MoonNew from '~icons/emojione-v1/new-moon';
+  import MoonWaxingCrescent from '~icons/emojione-v1/waxing-crescent-moon';
+  import MoonFirstQuarter from '~icons/emojione-v1/first-quarter-moon';
+  import MoonWaxingGibbous from '~icons/emojione-v1/waxing-gibbous-moon';
+  import MoonFull from '~icons/emojione-v1/full-moon';
+  import MoonWaningGibbous from '~icons/emojione-v1/waning-gibbous-moon';
+  import MoonLastQuarter from '~icons/emojione-v1/last-quarter-moon';
+  import MoonWaningCrescent from '~icons/emojione-v1/waning-crescent-moon';
 
 	const startDate: string = (new Date()).toISOString().split('T')[0];
 	const predictionMap: Map<string, Prediction> = new Map<string, Prediction>();
@@ -126,6 +134,19 @@
 		return cantons;
 	}
 
+	function getMoonIcon(phase) {
+		console.log(phase);
+    if (phase === 0) return MoonNew;
+    if (phase > 0 && phase <= 12.5) return MoonWaxingCrescent;
+    if (phase > 12.5 && phase <= 25) return MoonFirstQuarter;
+    if (phase > 25 && phase <= 37.5) return MoonWaxingGibbous;
+    if (phase > 37.5 && phase <= 50) return MoonFull;
+    if (phase > 50 && phase <= 62.5) return MoonWaningGibbous;
+    if (phase > 62.5 && phase <= 75) return MoonLastQuarter;
+    if (phase > 75 && phase <= 87.5) return MoonWaningCrescent;
+    return MoonNew;
+  }
+
 	loadData();
 </script>
 
@@ -134,7 +155,7 @@
 <div class="h-full mx-auto">
 	<div class="w-full min-h-[45vh] mb-7 bg-stone-200">
 		<div class="flex flex-row justify-between" data-name="container">
-			<div class="grow" data-name="left">
+			<div class="grow p-5" data-name="left">
 				<div class="overflow-x-auto mx-10">
 				  <table class="table table-sm">
 				    <!-- head -->
@@ -171,8 +192,20 @@
 				      </tr>
 				      <tr>
 				        <td>Mondphase</td>
-				        <td>{predictionMap.get(startDate)?.featuresUsed.moonPhase} <span class="material-symbols-outlined">circle</span></td>
-				      </tr>
+								<td>
+									{#if predictionMap.get(startDate)?.featuresUsed?.moonPhase !== undefined}
+										{#if getMoonIcon(predictionMap.get(startDate)?.featuresUsed?.moonPhase)}
+											<svelte:component
+												this={getMoonIcon(predictionMap.get(startDate)?.featuresUsed?.moonPhase)}
+												width="30"
+												height="30" />
+										{:else}
+											<span>No data</span>
+										{/if}
+									{:else}
+										<span>No data</span>
+									{/if}
+								</td>
 				    </tbody>
 				  </table>
 				</div>
