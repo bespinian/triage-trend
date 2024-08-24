@@ -92,18 +92,39 @@
 </script>
 
 {#if isLoaded}
-<img src="./clienia-logo.svg" class="m-10" alt="The logo" />
+<img src="./clienia-logo.svg" class="m-10 w-56" alt="The logo" />
 <div class="h-full mx-auto">
-	<div class="min-h-[50vh]">
-		<div class="flex">
-			<div class="mr-80">
+	<div class="w-full min-h-[45vh] mb-7 bg-stone-200">
+		<div class="flex flex-row justify-between" data-name="container">
+			<div class="bg-amber-200 grow" data-name="left">
+				hoi
 			</div>
-			<div class="shadow-xl {predictionColor(roundedPrediction(startDate))}">
-				<div class="">
-					<h1 class="text-center">{dateText(startDate)}</h1>
-					<p class="text-9xl text-center">
-						{roundedPrediction(startDate)}
-					</p>
+			<div class="bg-emerald-500 grow flex flex-col content-between" data-name="right">
+				<div class="bg-cyan-400 flex flex-row justify-start" data-name="prediction">
+					<div class="flex flex-col justify-start bg-purple-400" data-name="prediction-date">
+						<div class="text-center text-xl font-bold"
+							>{dateText(startDate).split(',')[0]}</div
+						>
+						<div class="text-center text-m"
+							>{dateText(startDate).split(',')[1]}</div
+						>
+					</div>
+					<div data-name="prediction-value">
+						<div class="text-xl font-bold">
+							{roundedPrediction(startDate)} 
+						</div>
+						<div class="text-m">
+							Personen werden heute erwartet
+						</div>
+					</div>
+				</div>
+				<div class="bg-fuchsia-400 bg-cyan-400 flex flex-col content-between" data-name="team">
+					<div class="" data-name="team-title">
+						Einteilung
+					</div>
+					<div class="" data-name="team-cards">
+						cards
+					</div>
 				</div>
 			</div>
 		</div>
