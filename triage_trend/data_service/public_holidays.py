@@ -1,0 +1,92 @@
+def get_public_holidays(date_str):
+    public_holidays = {
+        "2024-01-01": {
+            "Aargau": 1,
+            "Zug": 1,
+            "Schwyz": 1,
+            "St_gallen": 1,
+            "Schaffhausen": 1,
+            "Thurgau": 1,
+            "Zurich": 1,
+        },
+        "2024-01-02": {
+            "Aargau": 1,
+            "Schaffhausen": 1,
+            "Thurgau": 1,
+            "Zurich": 1,
+        },
+        "2024-03-29": {
+            "Aargau": 1,
+            "Zug": 1,
+            "Schwyz": 1,
+            "St_gallen": 1,
+            "Schaffhausen": 1,
+            "Thurgau": 1,
+            "Zurich": 1,
+        },
+        "2024-04-01": {
+            "Aargau": 1,
+            "Schwyz": 1,
+            "St_gallen": 1,
+            "Schaffhausen": 1,
+            "Thurgau": 1,
+        },
+        "2024-05-01": {"Zurich": 1, "Thurgau": 1, "Schaffhausen": 1},
+        "2024-05-09": {
+            "Aargau": 1,
+            "Zug": 1,
+            "Schwyz": 1,
+            "St_gallen": 1,
+            "Schaffhausen": 1,
+            "Thurgau": 1,
+            "Zurich": 1,
+        },
+        "2024-05-20": {
+            "Aargau": 1,
+            "Schwyz": 1,
+            "St_gallen": 1,
+            "Schaffhausen": 1,
+            "Thurgau": 1,
+        },
+        "2024-08-01": {
+            "Aargau": 1,
+            "Zug": 1,
+            "Schwyz": 1,
+            "St_gallen": 1,
+            "Schaffhausen": 1,
+            "Thurgau": 1,
+            "Zurich": 1,
+        },
+        "2024-08-15": {"Aargau": 1, "Zug": 1, "Schwyz": 1},
+        "2024-11-01": {"Aargau": 1, "Schwyz": 1, "St_gallen": 1, "Thurgau": 1},
+        "2024-12-25": {
+            "Aargau": 1,
+            "Zug": 1,
+            "Schwyz": 1,
+            "St_gallen": 1,
+            "Schaffhausen": 1,
+            "Thurgau": 1,
+            "Zurich": 1,
+        },
+        "2024-12-26": {
+            "Aargau": 1,
+            "Zug": 1,
+            "Schwyz": 1,
+            "St_gallen": 1,
+            "Schaffhausen": 1,
+            "Thurgau": 1,
+            "Zurich": 1,
+        },
+    }
+
+    holidays = public_holidays.get(date_str, {})
+
+    return {
+        "publicHolidayAargau": holidays.get("Aargau", 0),
+        "publicHolidayZug": holidays.get("Zug", 0),
+        "publicHolidaySchwyz": holidays.get("Schwyz", 0),
+        "publicHolidayStGallen": holidays.get("St_gallen", 0),
+        "publicHolidayThurgau": holidays.get("Thurgau", 0),
+        "publicHolidaySchaffhausen": holidays.get("Schaffhausen", 0),
+        "publicHolidayZurich": holidays.get("Zurich", 0),
+    }

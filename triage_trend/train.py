@@ -1,4 +1,5 @@
 import os
+
 import joblib
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -54,6 +55,7 @@ NUMERIC_COLUMNS = [
     "publicHolidayZurich",
 ]
 
+
 def map_weekdays(df):
     weekday_mapping = {
         "Monday": 0,
@@ -67,14 +69,18 @@ def map_weekdays(df):
     df["Weekday"] = df["Weekday"].map(weekday_mapping)
     return df
 
+
 def handle_missing_values(df):
-    numeric_cols = df.select_dtypes(include=["number"]).columns.drop("Date_Occurrences")
+    numeric_cols = df.select_dtypes(include=["number"]).columns.drop(
+        "Date_Occurrences"
+    )
     df[numeric_cols] = df[numeric_cols].fillna(df[numeric_cols].mean())
 
     for col in CATEGORICAL_COLUMNS:
         df[col] = df[col].fillna(df[col].mode()[0])
 
     return df
+
 
 def preprocess_data(df):
     df = map_weekdays(df)
@@ -87,6 +93,7 @@ def preprocess_data(df):
     y = df["Date_Occurrences"]
 
     return X, y, df
+
 
 def create_pipeline():
     preprocessor = ColumnTransformer(
@@ -114,6 +121,7 @@ def create_pipeline():
         ]
     )
     return pipeline
+
 
 def evaluate_model(model, X_test, y_test):
     y_pred = model.predict(X_test)
@@ -162,6 +170,7 @@ def evaluate_model(model, X_test, y_test):
     plt.tight_layout()
     plt.show()
 
+
 def plot_data_overview(df):
     df[NUMERIC_COLUMNS].hist(bins=30, figsize=(18, 12))
     plt.suptitle("Feature Distributions", fontsize=18)
@@ -187,6 +196,7 @@ def plot_data_overview(df):
     plt.tight_layout()
     plt.show()
 
+
 def main():
     df = load_data()
     X, y, full_df = preprocess_data(df)
@@ -202,6 +212,7 @@ def main():
 
     plot_data_overview(full_df)
     evaluate_model(pipeline, X_test, y_test)
+
 
 if __name__ == "__main__":
     main()

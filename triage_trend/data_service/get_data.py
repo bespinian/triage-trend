@@ -1,60 +1,40 @@
 from datetime import datetime
-import ephem
 
-def get_moon_phase(date_obj):
-    moon = ephem.Moon(date_obj)
-    return moon.phase
+from triage_trend.data_service.moon_phase import get_moon_phase
+from triage_trend.data_service.public_holidays import get_public_holidays
+from triage_trend.data_service.vacations import get_vacation_data
+from triage_trend.data_service.weather_forecast import get_weather_forecast
+
 
 def get_data(date_str):
+    forecast_data = get_weather_forecast()
     date_obj = datetime.strptime(date_str, "%Y-%m-%d")
     weekday = date_obj.weekday()
     is_weekend = 1 if weekday >= 5 else 0
     moon_phase = get_moon_phase(date_obj)
+    holidays = get_public_holidays(date_str)
+    vacations = get_vacation_data(date_str)
+    forecast = forecast_data.get(date_str, forecast_data[date_str])
 
     raw_data = {
-        "Average_Temperature": 20.0,
-        "Max_Temperature": 25.0,
-        "Total_Rain_Duration": 2.0,
-        "Average_Pressure": 1010.0,
-        "Average_Global_Radiation": 220.0,
-        "Cloudiness": 0.3,
+        "Average_Temperature": forecast["Avg_Temp"],
+        "Max_Temperature": forecast["Max_Temp"],
+        "Total_Rain_Duration": forecast["Rain_Duration"],
+        "Average_Pressure": forecast["Pressure"],
+        "Average_Global_Radiation": forecast["Radiation"],
+        "Cloudiness": forecast["Cloudiness"],
         "Moon Phase (%)": moon_phase,
-        "IsVacationAargau": 0,
-        "IsVacationZug": 0,
-        "IsVacationSchwyz": 0,
-        "IsVacationSt_gallen": 0,
-        "IsVacationSchaffhausen": 0,
-        "IsVacationThurgau": 0,
-        "IsVacationZurich": 0,
+        **vacations,
         "Weekday": weekday,
         "IsWeekend": is_weekend,
-        "Aargau_Week_After_Holiday": 0,
-        "Aargau_First_Week_of_Holiday": 0,
-        "Zug_Week_After_Holiday": 0,
-        "Zug_First_Week_of_Holiday": 0,
-        "Schwyz_Week_After_Holiday": 0,
-        "Schwyz_First_Week_of_Holiday": 0,
-        "St_gallen_Week_After_Holiday": 0,
-        "St_gallen_First_Week_of_Holiday": 0,
-        "Schaffhausen_Week_After_Holiday": 0,
-        "Schaffhausen_First_Week_of_Holiday": 0,
-        "Thurgau_Week_After_Holiday": 0,
-        "Thurgau_First_Week_of_Holiday": 0,
-        "Zurich_Week_After_Holiday": 0,
-        "Zurich_First_Week_of_Holiday": 0,
-        "Average_Temperature_5day_mean": 19.5,
-        "Max_Temperature_5day_mean": 24.5,
-        "Total_Rain_Duration_5day_mean": 1.8,
-        "Average_Pressure_5day_mean": 1012.0,
-        "Average_Global_Radiation_5day_mean": 215.0,
-        "Cloudiness_5day_mean": 0.25,
-        "publicHolidayAargau": 0,
-        "publicHolidayZug": 0,
-        "publicHolidaySchwyz": 0,
-        "publicHolidayStGallen": 0,
-        "publicHolidayThurgau": 0,
-        "publicHolidaySchaffhausen": 0,
-        "publicHolidayZurich": 0,
+        "Average_Temperature_5day_mean": (forecast["Avg_Temp"] + 19.0) / 2,
+        "Max_Temperature_5day_mean": (forecast["Max_Temp"] + 24.0) / 2,
+        "Total_Rain_Duration_5day_mean": (forecast["Rain_Duration"] + 1.8) / 2,
+        "Average_Pressure_5day_mean": (forecast["Pressure"] + 1012.0) / 2,
+        "Average_Global_Radiation_5day_mean": (forecast["Radiation"] + 215.0)
+        / 2,
+        "Cloudiness_5day_mean": (forecast["Cloudiness"] + 0.25) / 2,
+        **holidays,
     }
 
     return raw_data
