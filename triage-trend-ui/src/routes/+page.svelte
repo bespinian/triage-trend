@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Prediction } from '../lib/Prediction';
+	import { employees } from '$lib/Employee';
 
 	const startDate: string = (new Date()).toISOString().split('T')[0];
 	const predictionMap: Map<string, Prediction> = new Map<string, Prediction>();
@@ -89,6 +90,7 @@
 
 	loadData();
 </script>
+
 {#if isLoaded}
 <img src="./clienia-logo.svg" class="m-10" alt="The logo" />
 <div class="h-full mx-auto">
