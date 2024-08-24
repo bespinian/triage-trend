@@ -32,6 +32,13 @@ curl -X POST "http://127.0.0.1:8000/predict" -H "Content-Type: application/json"
 }'
 ```
 
+## Format python code
+
+```bash
+ruff check . --fix
+ruff format
+```
+
 ## Setup NixOS
 
 ```bash
@@ -43,3 +50,9 @@ direnv allow
 ## Data sources
 
 - [Weather data](https://data.stadt-zuerich.ch/dataset/ugz_meteodaten_tagesmittelwerte)
+
+## Feature engineering ideas
+
+- Week after holidays
+- First week of holidays
+- Mean week weather data

@@ -1,6 +1,7 @@
-import pandas as pd
-import ephem
 from datetime import datetime
+
+import ephem
+import pandas as pd
 
 # Define the start and end dates
 start_date = datetime(2019, 1, 1)
@@ -17,7 +18,7 @@ moon_phases = []
 for single_date in date_range:
     # Create an observer at a location in Switzerland (Bern)
     observer = ephem.Observer()
-    observer.lat, observer.lon = '46.948', '7.4474'  # Bern, Switzerland
+    observer.lat, observer.lon = "46.948", "7.4474"  # Bern, Switzerland
     observer.date = single_date
 
     # Calculate the moon phase
@@ -28,10 +29,7 @@ for single_date in date_range:
     moon_phases.append(phase)
 
 # Create a DataFrame with the results
-moon_calendar_df = pd.DataFrame({
-    'Date': dates,
-    'Moon Phase (%)': moon_phases
-})
+moon_calendar_df = pd.DataFrame({"Date": dates, "Moon Phase (%)": moon_phases})
 
 # Save the DataFrame to a CSV file
-moon_calendar_df.to_csv('moon_calendar_switzerland_2019_2023.csv', index=False)
+moon_calendar_df.to_csv("moon_calendar_switzerland_2019_2023.csv", index=False)
