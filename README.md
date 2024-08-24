@@ -16,8 +16,10 @@ The service can then be queried like this:
 curl -X POST "http://127.0.0.1:8000/predict" -H "Content-Type: application/json" -d '{
     "date": "2024-08-24"
 }'
-`
+```
+
 ## Install and run the frontend
+
 ```bash
 cd ./triage-trend-ui
 npm install
@@ -25,7 +27,7 @@ npm run dev
 
 # or start the server and open the app in a new browser tab
 npm run dev -- --open
-````
+```
 
 ## Format python code
 
@@ -51,3 +53,4 @@ direnv allow
 - Week after holidays
 - First week of holidays
 - Mean week weather data
+````
