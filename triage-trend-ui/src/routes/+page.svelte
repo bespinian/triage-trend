@@ -1,375 +1,52 @@
 <script lang="ts">
 	import type { Prediction } from '../lib/Prediction';
 
-	const startDate: string = '2024-08-25';
+
+	const startDate: string = (new Date()).toISOString().split('T')[0];
 	const predictionMap: Map<string, Prediction> = new Map<string, Prediction>();
 
-	predictionMap.set('2024-08-25', {
-		prediction: 2.5,
-		featuresUsed: {
-			averageTemperature: 20.0,
-			maxTemperature: 25.0,
-			totalRainDuration: 2.0,
-			averagePressure: 1010.0,
-			averageGlobalRadiation: 220.0,
-			cloudiness: 0.3,
-			moonPhase: 40.0,
-			isVacationAargau: 0,
-			isVacationZug: 0,
-			isVacationSchwyz: 0,
-			isVacationStGallen: 0,
-			isVacationSchaffhausen: 0,
-			isVacationThurgau: 0,
-			weekday: 5,
-			isWeekend: 1,
-			aargauWeekAfterHoliday: 0,
-			aargauFirstWeekOfHoliday: 0,
-			zugWeekAfterHoliday: 0,
-			zugFirstWeekOfHoliday: 0,
-			schwyzWeekAfterHoliday: 0,
-			schwyzFirstWeekOfHoliday: 0,
-			stGallenWeekAfterHoliday: 0,
-			stGallenFirstWeekOfHoliday: 0,
-			schaffhausenWeekAfterHoliday: 0,
-			schaffhausenFirstWeekOfHoliday: 0,
-			thurgauWeekAfterHoliday: 0,
-			thurgauFirstWeekOfHoliday: 0,
-			averageTemperature5dayMean: 19.5,
-			maxTemperature5dayMean: 24.5,
-			totalRainDuration5dayMean: 1.8,
-			averagePressure5dayMean: 1012.0,
-			averageGlobalRadiation5dayMean: 215.0,
-			cloudiness5dayMean: 0.25,
-			publicHolidayAargau: 0,
-			publicHolidayZug: 0,
-			publicHolidaySchwyz: 0,
-			publicHolidayStGallen: 0,
-			publicHolidayThurgau: 0,
-			publicHolidaySchaffhausen: 0,
-			publicHolidayZurich: 0
-		}
-	});
-	predictionMap.set('2024-08-26', {
-		prediction: 7,
-		featuresUsed: {
-			averageTemperature: 20.0,
-			maxTemperature: 25.0,
-			totalRainDuration: 2.0,
-			averagePressure: 1010.0,
-			averageGlobalRadiation: 220.0,
-			cloudiness: 0.3,
-			moonPhase: 40.0,
-			isVacationAargau: 0,
-			isVacationZug: 0,
-			isVacationSchwyz: 0,
-			isVacationStGallen: 0,
-			isVacationSchaffhausen: 0,
-			isVacationThurgau: 0,
-			weekday: 5,
-			isWeekend: 1,
-			aargauWeekAfterHoliday: 0,
-			aargauFirstWeekOfHoliday: 0,
-			zugWeekAfterHoliday: 0,
-			zugFirstWeekOfHoliday: 0,
-			schwyzWeekAfterHoliday: 0,
-			schwyzFirstWeekOfHoliday: 0,
-			stGallenWeekAfterHoliday: 0,
-			stGallenFirstWeekOfHoliday: 0,
-			schaffhausenWeekAfterHoliday: 0,
-			schaffhausenFirstWeekOfHoliday: 0,
-			thurgauWeekAfterHoliday: 0,
-			thurgauFirstWeekOfHoliday: 0,
-			averageTemperature5dayMean: 19.5,
-			maxTemperature5dayMean: 24.5,
-			totalRainDuration5dayMean: 1.8,
-			averagePressure5dayMean: 1012.0,
-			averageGlobalRadiation5dayMean: 215.0,
-			cloudiness5dayMean: 0.25,
-			publicHolidayAargau: 0,
-			publicHolidayZug: 0,
-			publicHolidaySchwyz: 0,
-			publicHolidayStGallen: 0,
-			publicHolidayThurgau: 0,
-			publicHolidaySchaffhausen: 0,
-			publicHolidayZurich: 0
-		}
-	});
-	predictionMap.set('2024-08-27', {
-		prediction: 9,
-		featuresUsed: {
-			averageTemperature: 20.0,
-			maxTemperature: 25.0,
-			totalRainDuration: 2.0,
-			averagePressure: 1010.0,
-			averageGlobalRadiation: 220.0,
-			cloudiness: 0.3,
-			moonPhase: 40.0,
-			isVacationAargau: 0,
-			isVacationZug: 0,
-			isVacationSchwyz: 0,
-			isVacationStGallen: 0,
-			isVacationSchaffhausen: 0,
-			isVacationThurgau: 0,
-			weekday: 5,
-			isWeekend: 1,
-			aargauWeekAfterHoliday: 0,
-			aargauFirstWeekOfHoliday: 0,
-			zugWeekAfterHoliday: 0,
-			zugFirstWeekOfHoliday: 0,
-			schwyzWeekAfterHoliday: 0,
-			schwyzFirstWeekOfHoliday: 0,
-			stGallenWeekAfterHoliday: 0,
-			stGallenFirstWeekOfHoliday: 0,
-			schaffhausenWeekAfterHoliday: 0,
-			schaffhausenFirstWeekOfHoliday: 0,
-			thurgauWeekAfterHoliday: 0,
-			thurgauFirstWeekOfHoliday: 0,
-			averageTemperature5dayMean: 19.5,
-			maxTemperature5dayMean: 24.5,
-			totalRainDuration5dayMean: 1.8,
-			averagePressure5dayMean: 1012.0,
-			averageGlobalRadiation5dayMean: 215.0,
-			cloudiness5dayMean: 0.25,
-			publicHolidayAargau: 0,
-			publicHolidayZug: 0,
-			publicHolidaySchwyz: 0,
-			publicHolidayStGallen: 0,
-			publicHolidayThurgau: 0,
-			publicHolidaySchaffhausen: 0,
-			publicHolidayZurich: 0
-		}
-	});
-	predictionMap.set('2024-08-28', {
-		prediction: 15,
-		featuresUsed: {
-			averageTemperature: 20.0,
-			maxTemperature: 25.0,
-			totalRainDuration: 2.0,
-			averagePressure: 1010.0,
-			averageGlobalRadiation: 220.0,
-			cloudiness: 0.3,
-			moonPhase: 40.0,
-			isVacationAargau: 0,
-			isVacationZug: 0,
-			isVacationSchwyz: 0,
-			isVacationStGallen: 0,
-			isVacationSchaffhausen: 0,
-			isVacationThurgau: 0,
-			weekday: 5,
-			isWeekend: 1,
-			aargauWeekAfterHoliday: 0,
-			aargauFirstWeekOfHoliday: 0,
-			zugWeekAfterHoliday: 0,
-			zugFirstWeekOfHoliday: 0,
-			schwyzWeekAfterHoliday: 0,
-			schwyzFirstWeekOfHoliday: 0,
-			stGallenWeekAfterHoliday: 0,
-			stGallenFirstWeekOfHoliday: 0,
-			schaffhausenWeekAfterHoliday: 0,
-			schaffhausenFirstWeekOfHoliday: 0,
-			thurgauWeekAfterHoliday: 0,
-			thurgauFirstWeekOfHoliday: 0,
-			averageTemperature5dayMean: 19.5,
-			maxTemperature5dayMean: 24.5,
-			totalRainDuration5dayMean: 1.8,
-			averagePressure5dayMean: 1012.0,
-			averageGlobalRadiation5dayMean: 215.0,
-			cloudiness5dayMean: 0.25,
-			publicHolidayAargau: 0,
-			publicHolidayZug: 0,
-			publicHolidaySchwyz: 0,
-			publicHolidayStGallen: 0,
-			publicHolidayThurgau: 0,
-			publicHolidaySchaffhausen: 0,
-			publicHolidayZurich: 0
-		}
-	});
-	predictionMap.set('2024-08-29', {
-		prediction: 17,
-		featuresUsed: {
-			averageTemperature: 20.0,
-			maxTemperature: 25.0,
-			totalRainDuration: 2.0,
-			averagePressure: 1010.0,
-			averageGlobalRadiation: 220.0,
-			cloudiness: 0.3,
-			moonPhase: 40.0,
-			isVacationAargau: 0,
-			isVacationZug: 0,
-			isVacationSchwyz: 0,
-			isVacationStGallen: 0,
-			isVacationSchaffhausen: 0,
-			isVacationThurgau: 0,
-			weekday: 5,
-			isWeekend: 1,
-			aargauWeekAfterHoliday: 0,
-			aargauFirstWeekOfHoliday: 0,
-			zugWeekAfterHoliday: 0,
-			zugFirstWeekOfHoliday: 0,
-			schwyzWeekAfterHoliday: 0,
-			schwyzFirstWeekOfHoliday: 0,
-			stGallenWeekAfterHoliday: 0,
-			stGallenFirstWeekOfHoliday: 0,
-			schaffhausenWeekAfterHoliday: 0,
-			schaffhausenFirstWeekOfHoliday: 0,
-			thurgauWeekAfterHoliday: 0,
-			thurgauFirstWeekOfHoliday: 0,
-			averageTemperature5dayMean: 19.5,
-			maxTemperature5dayMean: 24.5,
-			totalRainDuration5dayMean: 1.8,
-			averagePressure5dayMean: 1012.0,
-			averageGlobalRadiation5dayMean: 215.0,
-			cloudiness5dayMean: 0.25,
-			publicHolidayAargau: 0,
-			publicHolidayZug: 0,
-			publicHolidaySchwyz: 0,
-			publicHolidayStGallen: 0,
-			publicHolidayThurgau: 0,
-			publicHolidaySchaffhausen: 0,
-			publicHolidayZurich: 0
-		}
-	});
-	predictionMap.set('2024-08-30', {
-		prediction: 12,
-		featuresUsed: {
-			averageTemperature: 20.0,
-			maxTemperature: 25.0,
-			totalRainDuration: 2.0,
-			averagePressure: 1010.0,
-			averageGlobalRadiation: 220.0,
-			cloudiness: 0.3,
-			moonPhase: 40.0,
-			isVacationAargau: 0,
-			isVacationZug: 0,
-			isVacationSchwyz: 0,
-			isVacationStGallen: 0,
-			isVacationSchaffhausen: 0,
-			isVacationThurgau: 0,
-			weekday: 5,
-			isWeekend: 1,
-			aargauWeekAfterHoliday: 0,
-			aargauFirstWeekOfHoliday: 0,
-			zugWeekAfterHoliday: 0,
-			zugFirstWeekOfHoliday: 0,
-			schwyzWeekAfterHoliday: 0,
-			schwyzFirstWeekOfHoliday: 0,
-			stGallenWeekAfterHoliday: 0,
-			stGallenFirstWeekOfHoliday: 0,
-			schaffhausenWeekAfterHoliday: 0,
-			schaffhausenFirstWeekOfHoliday: 0,
-			thurgauWeekAfterHoliday: 0,
-			thurgauFirstWeekOfHoliday: 0,
-			averageTemperature5dayMean: 19.5,
-			maxTemperature5dayMean: 24.5,
-			totalRainDuration5dayMean: 1.8,
-			averagePressure5dayMean: 1012.0,
-			averageGlobalRadiation5dayMean: 215.0,
-			cloudiness5dayMean: 0.25,
-			publicHolidayAargau: 0,
-			publicHolidayZug: 0,
-			publicHolidaySchwyz: 0,
-			publicHolidayStGallen: 0,
-			publicHolidayThurgau: 0,
-			publicHolidaySchaffhausen: 0,
-			publicHolidayZurich: 0
-		}
-	});
-	predictionMap.set('2024-08-31', {
-		prediction: 3,
-		featuresUsed: {
-			averageTemperature: 20.0,
-			maxTemperature: 25.0,
-			totalRainDuration: 2.0,
-			averagePressure: 1010.0,
-			averageGlobalRadiation: 220.0,
-			cloudiness: 0.3,
-			moonPhase: 40.0,
-			isVacationAargau: 0,
-			isVacationZug: 0,
-			isVacationSchwyz: 0,
-			isVacationStGallen: 0,
-			isVacationSchaffhausen: 0,
-			isVacationThurgau: 0,
-			weekday: 5,
-			isWeekend: 1,
-			aargauWeekAfterHoliday: 0,
-			aargauFirstWeekOfHoliday: 0,
-			zugWeekAfterHoliday: 0,
-			zugFirstWeekOfHoliday: 0,
-			schwyzWeekAfterHoliday: 0,
-			schwyzFirstWeekOfHoliday: 0,
-			stGallenWeekAfterHoliday: 0,
-			stGallenFirstWeekOfHoliday: 0,
-			schaffhausenWeekAfterHoliday: 0,
-			schaffhausenFirstWeekOfHoliday: 0,
-			thurgauWeekAfterHoliday: 0,
-			thurgauFirstWeekOfHoliday: 0,
-			averageTemperature5dayMean: 19.5,
-			maxTemperature5dayMean: 24.5,
-			totalRainDuration5dayMean: 1.8,
-			averagePressure5dayMean: 1012.0,
-			averageGlobalRadiation5dayMean: 215.0,
-			cloudiness5dayMean: 0.25,
-			publicHolidayAargau: 0,
-			publicHolidayZug: 0,
-			publicHolidaySchwyz: 0,
-			publicHolidayStGallen: 0,
-			publicHolidayThurgau: 0,
-			publicHolidaySchaffhausen: 0,
-			publicHolidayZurich: 0
-		}
-	});
-	predictionMap.set('2024-09-01', {
-		prediction: 1,
-		featuresUsed: {
-			averageTemperature: 20.0,
-			maxTemperature: 25.0,
-			totalRainDuration: 2.0,
-			averagePressure: 1010.0,
-			averageGlobalRadiation: 220.0,
-			cloudiness: 0.3,
-			moonPhase: 40.0,
-			isVacationAargau: 0,
-			isVacationZug: 0,
-			isVacationSchwyz: 0,
-			isVacationStGallen: 0,
-			isVacationSchaffhausen: 0,
-			isVacationThurgau: 0,
-			weekday: 5,
-			isWeekend: 1,
-			aargauWeekAfterHoliday: 0,
-			aargauFirstWeekOfHoliday: 0,
-			zugWeekAfterHoliday: 0,
-			zugFirstWeekOfHoliday: 0,
-			schwyzWeekAfterHoliday: 0,
-			schwyzFirstWeekOfHoliday: 0,
-			stGallenWeekAfterHoliday: 0,
-			stGallenFirstWeekOfHoliday: 0,
-			schaffhausenWeekAfterHoliday: 0,
-			schaffhausenFirstWeekOfHoliday: 0,
-			thurgauWeekAfterHoliday: 0,
-			thurgauFirstWeekOfHoliday: 0,
-			averageTemperature5dayMean: 19.5,
-			maxTemperature5dayMean: 24.5,
-			totalRainDuration5dayMean: 1.8,
-			averagePressure5dayMean: 1012.0,
-			averageGlobalRadiation5dayMean: 215.0,
-			cloudiness5dayMean: 0.25,
-			publicHolidayAargau: 0,
-			publicHolidayZug: 0,
-			publicHolidaySchwyz: 0,
-			publicHolidayStGallen: 0,
-			publicHolidayThurgau: 0,
-			publicHolidaySchaffhausen: 0,
-			publicHolidayZurich: 0
-		}
-	});
+	interface RequestPayload {
+    date: string;
+  }
+	
 
+  // Function to send the POST request
+  async function postData(date: string): Promise<void> {
+    const payload: RequestPayload = {
+      date: date,
+    };
+
+    try {
+      const response = await fetch('http://localhost:8000/predict', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data: Prediction = await response.json();
+      predictionMap.set(date, data);  // Update the state with the response data
+    } catch (err) {
+    	err instanceof Error ? err.message : 'Unknown error';
+    }
+  }
+
+	let isLoaded = false;
+	async function loadData() {
+	  let i = 0;
+		for (; i < 8; i++) {
+			await postData(offsetDate(startDate, i));
+		}
+		isLoaded = true;
+	}
+    
 	function roundedPrediction(date: string): number {
-		console.log(date);
-		console.log(predictionMap);
 		let prediction = predictionMap.get(date);
-		console.log(prediction);
 		if (prediction) {
 			return Math.ceil(prediction.prediction);
 		} else {
@@ -405,12 +82,14 @@
 
 		return dateObj.toISOString().split('T')[0];
 	}
-</script>
 
+	loadData();
+</script>
+{#if isLoaded}
 <div class="h-full mx-auto">
 	<div class="hero min-h-[50vh]">
 		<div class="flex">
-			<div class="">
+			<div class="mr-80">
 				<img src="./clienia-logo.svg" class="" alt="The logo" />
 			</div>
 			<div class="card shadow-xl {predictionColor(roundedPrediction(startDate))}">
@@ -441,3 +120,4 @@
 		{/each}
 	</div>
 </div>
+{/if}
