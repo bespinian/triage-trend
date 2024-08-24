@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { Prediction } from '../lib/Prediction';
 
-
 	const startDate: string = (new Date()).toISOString().split('T')[0];
 	const predictionMap: Map<string, Prediction> = new Map<string, Prediction>();
 
@@ -83,18 +82,23 @@
 		return dateObj.toISOString().split('T')[0];
 	}
 
+	function getRandomEmployees(count: number): Employee[] {
+		const shuffled = employees.sort(() => 0.5 - Math.random());
+		return shuffled.slice(0, count);
+	}
+
 	loadData();
 </script>
 {#if isLoaded}
+<img src="./clienia-logo.svg" class="m-10" alt="The logo" />
 <div class="h-full mx-auto">
-	<div class="hero min-h-[50vh]">
+	<div class="min-h-[50vh]">
 		<div class="flex">
 			<div class="mr-80">
-				<img src="./clienia-logo.svg" class="" alt="The logo" />
 			</div>
-			<div class="card shadow-xl {predictionColor(roundedPrediction(startDate))}">
-				<div class="card-body">
-					<h1 class="card-title text-center">{dateText(startDate)}</h1>
+			<div class="shadow-xl {predictionColor(roundedPrediction(startDate))}">
+				<div class="">
+					<h1 class="text-center">{dateText(startDate)}</h1>
 					<p class="text-9xl text-center">
 						{roundedPrediction(startDate)}
 					</p>
