@@ -1,95 +1,77 @@
-from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.compose import ColumnTransformer
-import matplotlib.pyplot as plt
-import seaborn as sns
-import pandas as pd
 from triage_trend.load_data import load_data
 
-# Define global columns
-categorical_columns = ['Weekday']
-numeric_columns = [
-    'Average_Temperature',
-    'Max_Temperature',
-    'Total_Rain_Duration',
-    'Average_Pressure',
-    'Average_Global_Radiation',
-    'Cloudiness',
-    'Moon Phase (%)',
-    'IsVacationAargau',
-    'IsVacationZug',
-    'IsVacationSchwyz',
-    'IsVacationSt_gallen',
-    'IsVacationSchaffhausen',
-    'IsVacationThurgau',
+# Global definitions for column names
+CATEGORICAL_COLUMNS = ['Weekday']
+NUMERIC_COLUMNS = [
+    'Average_Temperature', 'Max_Temperature', 'Total_Rain_Duration',
+    'Average_Pressure', 'Average_Global_Radiation', 'Cloudiness',
+    'Moon Phase (%)', 'IsVacationAargau', 'IsVacationZug',
+    'IsVacationSchwyz', 'IsVacationSt_gallen', 'IsVacationSchaffhausen',
+    'IsVacationThurgau'
 ]
 
-def preprocess_data(df):
-    # Map weekdays to numerical values
+def map_weekdays(df):
+    """Map weekday names to numerical values."""
     weekday_mapping = {
-        'Monday': 0,
-        'Tuesday': 1,
-        'Wednesday': 2,
-        'Thursday': 3,
-        'Friday': 4,
-        'Saturday': 5,
-        'Sunday': 6
+        'Monday': 0, 'Tuesday': 1, 'Wednesday': 2,
+        'Thursday': 3, 'Friday': 4, 'Saturday': 5, 'Sunday': 6
     }
     df['Weekday'] = df['Weekday'].map(weekday_mapping)
+    return df
 
-    # Handle missing values in numerical columns
-    numeric_columns_local = df.select_dtypes(include=['number']).columns.drop('Date_Occurrences')
-    numeric_columns_local = list(numeric_columns_local)
-    df[numeric_columns_local] = df[numeric_columns_local].fillna(df[numeric_columns_local].mean())
+def handle_missing_values(df):
+    """Fill missing values in both numeric and categorical columns."""
+    numeric_cols = df.select_dtypes(include=['number']).columns.drop('Date_Occurrences')
+    df[numeric_cols] = df[numeric_cols].fillna(df[numeric_cols].mean())
 
-    # Fill missing values in categorical columns
-    for col in categorical_columns:
+    for col in CATEGORICAL_COLUMNS:
         df[col] = df[col].fillna(df[col].mode()[0])
 
-    # Add IsWeekend feature
+    return df
+
+def preprocess_data(df):
+    """Preprocess the input DataFrame."""
+    df = map_weekdays(df)
+    df = handle_missing_values(df)
+
+    # Add 'IsWeekend' feature
     df['IsWeekend'] = df['Weekday'].isin([5, 6]).astype(int)
 
-    numeric_columns_local.extend(['IsWeekend'])
-
+    # Select only relevant columns for modeling
     df = df.select_dtypes(exclude=['datetime64'])
-
     X = df.drop(columns=['Date_Occurrences'])
     y = df['Date_Occurrences']
 
-    return X, y, df['Weekday']
+    return X, y
 
 def create_pipeline():
+    """Create a machine learning pipeline with preprocessing and Gradient Boosting."""
     preprocessor = ColumnTransformer(
         transformers=[
-            ('num', StandardScaler(), numeric_columns),
-            ('cat', OneHotEncoder(), categorical_columns)
+            ('num', StandardScaler(), NUMERIC_COLUMNS),
+            ('cat', OneHotEncoder(), CATEGORICAL_COLUMNS)
         ]
     )
 
     pipeline = Pipeline([
         ('preprocessor', preprocessor),
-        ('gb', GradientBoostingRegressor(random_state=42))
+        ('gb', GradientBoostingRegressor(
+            learning_rate=0.05, max_depth=4, min_samples_leaf=2,
+            min_samples_split=10, n_estimators=150, random_state=42,
+            subsample=0.85
+        ))
     ])
     return pipeline
 
-def train_model(pipeline, X_train, y_train):
-    param_grid = {
-        'gb__n_estimators': [100, 200, 300],
-        'gb__learning_rate': [0.01, 0.1, 0.2],
-        'gb__max_depth': [3, 5, 7],
-        'gb__subsample': [0.8, 1.0]
-    }
-
-    grid_search = GridSearchCV(pipeline, param_grid, cv=5, scoring='neg_mean_squared_error')
-    grid_search.fit(X_train, y_train)
-
-    return grid_search.best_estimator_
-
-def evaluate_model(pipeline, X_test, y_test, weekdays_test):
-    y_pred = pipeline.predict(X_test)
+def evaluate_model(model, X_test, y_test):
+    """Evaluate the model and print performance metrics."""
+    y_pred = model.predict(X_test)
     mse = mean_squared_error(y_test, y_pred)
     mae = mean_absolute_error(y_test, y_pred)
     r2 = r2_score(y_test, y_pred)
@@ -98,46 +80,15 @@ def evaluate_model(pipeline, X_test, y_test, weekdays_test):
     print(f'Mean Absolute Error: {mae:.2f}')
     print(f'R^2 Score: {r2:.2f}')
 
-    # Compare predicted and actual values
-    comparison_df = pd.DataFrame({'Actual': y_test, 'Predicted': y_pred})
-    print("\nComparison of Actual vs Predicted:")
-    print(comparison_df.head(20))  # Display the first 20 rows for review
-
-    # Residual analysis
-    residuals = y_test - y_pred
-    print("\nResiduals (Actual - Predicted):")
-    print(residuals.describe())
-
-    plt.figure(figsize=(10, 6))
-    sns.histplot(residuals, kde=True)
-    plt.title('Distribution of Residuals')
-    plt.xlabel('Residuals')
-    plt.show()
-
-    # Plot actual vs predicted
-    plt.figure(figsize=(10, 6))
-    plt.scatter(y_test, y_pred, alpha=0.7)
-    plt.title('Actual vs Predicted Values')
-    plt.xlabel('Actual')
-    plt.ylabel('Predicted')
-    plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')  # Diagonal line
-    plt.show()
-
-    # Analyze predictions by weekday
-    weekday_preds = pd.DataFrame({'Actual': y_test, 'Predicted': y_pred, 'Weekday': weekdays_test})
-    weekday_analysis = weekday_preds.groupby('Weekday').agg(['mean', 'std'])
-    print("\nPrediction Analysis by Weekday:")
-    print(weekday_analysis)
-
-    plt.figure(figsize=(10, 6))
-    sns.boxplot(x='Weekday', y='Predicted', data=weekday_preds)
-    plt.title('Boxplot of Predictions by Weekday')
-    plt.show()
-
 def main():
     df = load_data()
-    X, y, weekdays = preprocess_data(df)
-    X_train, X_test, y_train, y_test, weekdays_train, weekdays_test = train_test_split(X, y, weekdays, test_size=0.3, random_state=42)
+    X, y = preprocess_data(df)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
     pipeline = create_pipeline()
-    best_pipeline = train_model(pipeline, X_train, y_train)
-    evaluate_model(best_pipeline, X_test, y_test, weekdays_test)
+    pipeline.fit(X_train, y_train)
+
+    evaluate_model(pipeline, X_test, y_test)
+
+if __name__ == "__main__":
+    main()
