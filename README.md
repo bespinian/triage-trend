@@ -12,7 +12,7 @@ poetry run uvicorn triage_trend.main:app --reload
 
 The service can then be queried like this:
 
-````bash
+```bash
 curl -X POST "http://127.0.0.1:8000/predict" -H "Content-Type: application/json" -d '{
     "date": "2024-08-24"
 }'
@@ -53,4 +53,7 @@ direnv allow
 - Week after holidays
 - First week of holidays
 - Mean week weather data
-````
+
+```
+
+```
