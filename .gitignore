@@ -1,3 +1,6 @@
+.direnv
+.envrc
+shell.nix
 # Byte-compiled / optimized / DLL files
 data/clienia_dataset.csv
 __pycache__/
