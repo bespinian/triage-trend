@@ -8,6 +8,8 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.compose import ColumnTransformer
 import pandas as pd
 import numpy as np
+import joblib  # Import joblib to save the model
+import os
 from triage_trend.load_data import load_data
 
 # Define global columns
@@ -149,6 +151,10 @@ def main():
 
     pipeline = create_pipeline()
     pipeline.fit(X_train, y_train)
+
+    # Save the trained model to disk
+    os.makedirs('./model', exist_ok=True)
+    joblib.dump(pipeline, './model/gb_model.pkl')
 
     # Data Overview
     plot_data_overview(full_df)
