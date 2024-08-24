@@ -1,13 +1,12 @@
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.linear_model import Ridge
+from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.compose import ColumnTransformer
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
-import numpy as np
 from triage_trend.load_data import load_data
 
 # Define global columns
@@ -72,13 +71,16 @@ def create_pipeline():
 
     pipeline = Pipeline([
         ('preprocessor', preprocessor),
-        ('ridge', Ridge())
+        ('gb', GradientBoostingRegressor(random_state=42))
     ])
     return pipeline
 
 def train_model(pipeline, X_train, y_train):
     param_grid = {
-        'ridge__alpha': [0.1, 1.0, 10.0],  # Regularization strength
+        'gb__n_estimators': [100, 200, 300],
+        'gb__learning_rate': [0.01, 0.1, 0.2],
+        'gb__max_depth': [3, 5, 7],
+        'gb__subsample': [0.8, 1.0]
     }
 
     grid_search = GridSearchCV(pipeline, param_grid, cv=5, scoring='neg_mean_squared_error')
@@ -120,13 +122,6 @@ def evaluate_model(pipeline, X_test, y_test, weekdays_test):
     plt.ylabel('Predicted')
     plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')  # Diagonal line
     plt.show()
-
-    # Feature importances (for Ridge or similar models)
-    if hasattr(pipeline.named_steps['ridge'], 'coef_'):
-        coef = pipeline.named_steps['ridge'].coef_
-        print("\nFeature Coefficients:")
-        for feature, importance in zip(numeric_columns + ['IsWeekend'], coef):
-            print(f"{feature}: {importance:.4f}")
 
     # Analyze predictions by weekday
     weekday_preds = pd.DataFrame({'Actual': y_test, 'Predicted': y_pred, 'Weekday': weekdays_test})
