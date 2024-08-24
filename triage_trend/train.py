@@ -47,6 +47,13 @@ NUMERIC_COLUMNS = [
     "Average_Pressure_5day_mean",
     "Average_Global_Radiation_5day_mean",
     "Cloudiness_5day_mean",
+    "publicHolidayAargau",
+    "publicHolidayZug",
+    "publicHolidaySchwyz",
+    "publicHolidayStGallen",
+    "publicHolidayThurgau",
+    "publicHolidaySchaffhausen",
+    "publicHolidayZurich",
 ]
 
 
