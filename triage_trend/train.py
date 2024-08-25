@@ -140,7 +140,8 @@ def evaluate_model(model, X_test, y_test):
     plt.ylabel("Predicted", fontsize=14)
     plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], "r--")
     plt.tight_layout()
-    plt.show()
+    plt.savefig("plots/actual_vs_predicted_values.png")
+    # plt.show()
 
     residuals = y_test - y_pred
     plt.figure(figsize=(12, 8))
@@ -149,7 +150,8 @@ def evaluate_model(model, X_test, y_test):
     plt.xlabel("Residuals", fontsize=14)
     plt.ylabel("Count", fontsize=14)
     plt.tight_layout()
-    plt.show()
+    plt.savefig("plots/distribution_of_residuals.png")
+    # plt.show()
 
     feature_importances = model.named_steps["gb"].feature_importances_
     feature_names = NUMERIC_COLUMNS + list(
@@ -168,14 +170,16 @@ def evaluate_model(model, X_test, y_test):
     plt.xlabel("Importance", fontsize=14)
     plt.ylabel("Feature", fontsize=14)
     plt.tight_layout()
-    plt.show()
+    plt.savefig("plots/feature_importance.png")
+    # plt.show()
 
 
 def plot_data_overview(df):
     df[NUMERIC_COLUMNS].hist(bins=30, figsize=(18, 12))
     plt.suptitle("Feature Distributions", fontsize=18)
     plt.tight_layout(rect=[0, 0, 1, 0.96])
-    plt.show()
+    plt.savefig("plots/feature_distributions.png")
+    # plt.show()
 
     plt.figure(figsize=(14, 12))
     sns.heatmap(
@@ -186,7 +190,8 @@ def plot_data_overview(df):
     )
     plt.title("Correlation Heatmap", fontsize=16)
     plt.tight_layout()
-    plt.show()
+    plt.savefig("plots/correlation_heatmap.png")
+    # plt.show()
 
     plt.figure(figsize=(12, 8))
     sns.histplot(df["Date_Occurrences"], kde=True, bins=30)
@@ -194,7 +199,8 @@ def plot_data_overview(df):
     plt.xlabel("Date Occurrences", fontsize=14)
     plt.ylabel("Frequency", fontsize=14)
     plt.tight_layout()
-    plt.show()
+    plt.savefig("plots/target_variable_distribution.png")
+    # plt.show()
 
 
 def main():

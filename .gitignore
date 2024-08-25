@@ -1,6 +1,12 @@
 .direnv
 .envrc
 shell.nix
+
+model/gb_model.pkl
+!plots/.gitkeep
+plots/
+tempdata.csv
+
 # Byte-compiled / optimized / DLL files
 data/clienia_dataset.csv
 __pycache__/
