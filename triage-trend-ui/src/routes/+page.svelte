@@ -169,7 +169,7 @@
 <div class="h-full mx-auto">
 	<div class="w-full min-h-[45vh] mb-7 bg-stone-200">
 		<div class="flex flex-row justify-between" data-name="container">
-			<div class="grow p-5" data-name="left">
+			<div class="grow p-5 min-h-[45vh]" data-name="left">
 				<div class="overflow-x-auto mx-10">
 				  <table class="table table-sm">
 				    <!-- head -->
