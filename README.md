@@ -6,7 +6,7 @@ Our awesome BärnHäckt project for the Clienia Schlössli challenge
 
 ```
 poetry install
-poetry run python train.py
+poetry run python scripts/train.py
 poetry run uvicorn triage_trend.main:app --reload
 ```
 
